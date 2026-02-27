@@ -1,34 +1,31 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { motion } from "framer-motion"
+import cat from "./assets/undraw_playful-cat_3ta5.svg"
+import rescue from "./assets/Adopt a pet-amico.svg"
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="page">
+
+      <div className="hero">
+        <motion.img
+          src={cat}
+          className="floating-cat"
+          animate={{ y: [0, -15, 0] }}
+          transition={{ repeat: Infinity, duration: 4 }}
+        />
+
+        <motion.img
+          src={rescue}
+          className="floating-rescue"
+          animate={{ y: [0, -10, 0] }}
+          transition={{ repeat: Infinity, duration: 5 }}
+        />
+
+        <h1>StormSafe</h1>
+        <p>Helping vulnerable animals during extreme weather</p>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+
+    </div>
   )
 }
 
