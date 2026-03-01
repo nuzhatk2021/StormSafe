@@ -1,3 +1,4 @@
+/* RESET */
 html, body, #root {
   margin: 0;
   padding: 0;
@@ -10,6 +11,7 @@ body {
   color: white;
 }
 
+/* MAIN PAGE */
 .page {
   min-height: 100vh;
   position: relative;
@@ -17,7 +19,8 @@ body {
   cursor: default;
 }
 
-/* HEADER */
+/* ================= HEADER ================= */
+
 .top {
   text-align: center;
   padding-top: 1.5rem;
@@ -40,6 +43,7 @@ body {
   margin-right: auto;
 }
 
+/* Logo beside StormSafe */
 .logo-header {
   display: flex;
   justify-content: center;
@@ -47,12 +51,14 @@ body {
   gap: 12px;
 }
 
-/* BACKGROUND ANIMALS */
+/* ================= BACKGROUND ANIMALS ================= */
+
 .bg-animal {
   position: absolute;
   width: 600px;
-  opacity: 0.20;
+  opacity: 0.18;
   pointer-events: none;
+  z-index: 1;
 }
 
 .bg-animal.left {
@@ -65,7 +71,8 @@ body {
   top: 200px;
 }
 
-/* BALL */
+/* ================= BALL ================= */
+
 .ball {
   position: absolute;
   width: 12px;
@@ -76,22 +83,15 @@ body {
     0 0 15px white,
     0 0 30px rgba(255,255,255,0.4);
   z-index: 6;
-}
-
-/* SPRITE CAT */
-.sprite-wrapper {
-  position: absolute;
-  width: 100px;   /* smaller */
-  height: 100px;
-  overflow: hidden;
-  z-index: 7;
   pointer-events: none;
 }
 
-.sprite {
-  width: 100%;
-  height: 100%;
-  background-image: url("./assets/cat-run.png");
-  background-repeat: no-repeat;
-  background-size: 300% 200%; /* 3 columns, 2 rows */
+/* ================= CUTE CAT ================= */
+
+.cute-cat {
+  position: absolute;
+  width: 65px;   /* adjust size here */
+  height: auto;
+  z-index: 7;
+  pointer-events: none;
 }

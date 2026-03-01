@@ -1,33 +1,25 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import Lottie from "lottie-react"
 
 import catPookie from "./assets/catPookie.json"
 import bg1 from "./assets/cat-astronaut-amico.svg"
 import bg2 from "./assets/cat-astronaut-rafiki.svg"
-import catRun from "./assets/cat-run.png"
+import cuteCat from "./assets/cat-raisinghand.png"
 
 function App() {
 
-  // Single ball
-  const [ball, setBall] = useState({ x: 500, y: 120 })
+  const HEADER_HEIGHT = 180
+
+  // Ball position (null = not visible yet)
+  const [ball, setBall] = useState(null)
 
   // Cat position
   const [catPos, setCatPos] = useState({ x: 300, y: 120 })
 
-  // Sprite frame
-  const [frame, setFrame] = useState(0)
-
-  const lastMove = useRef(0)
-  const HEADER_HEIGHT = 180
-
-  // Move ball only inside header (less sensitive)
-  const moveBall = (e) => {
-    const now = Date.now()
-    if (now - lastMove.current < 120) return
-
+  // CLICK TO CREATE BALL
+  const handleClick = (e) => {
     if (e.clientY < HEADER_HEIGHT) {
-      lastMove.current = now
       setBall({
         x: e.clientX,
         y: e.clientY
@@ -35,16 +27,18 @@ function App() {
     }
   }
 
-  // Smooth cat follow
+  // Cat smoothly follows ball
   useEffect(() => {
+    if (!ball) return
+
     const interval = setInterval(() => {
       setCatPos(prev => {
         const dx = ball.x - prev.x
         const dy = ball.y - prev.y
 
         return {
-          x: prev.x + dx * 0.02,
-          y: prev.y + dy * 0.02
+          x: prev.x + dx * 0.025,
+          y: prev.y + dy * 0.025
         }
       })
     }, 16)
@@ -52,24 +46,10 @@ function App() {
     return () => clearInterval(interval)
   }, [ball])
 
-  // Animate sprite only when moving
-  useEffect(() => {
-    const animation = setInterval(() => {
-      const distance =
-        Math.abs(ball.x - catPos.x) + Math.abs(ball.y - catPos.y)
-
-      if (distance > 8) {
-        setFrame(prev => (prev + 1) % 6)
-      }
-    }, 150)
-
-    return () => clearInterval(animation)
-  }, [ball, catPos])
-
   return (
-    <div className="page" onMouseMove={moveBall}>
+    <div className="page" onClick={handleClick}>
 
-      {/* FLOATING BACKGROUND ANIMALS */}
+      {/* BACKGROUND ANIMALS */}
       <motion.img
         src={bg1}
         className="bg-animal left"
@@ -100,28 +80,24 @@ function App() {
         </p>
       </div>
 
-      {/* BALL */}
-      <motion.div
-        className="ball"
-        animate={{ x: ball.x, y: ball.y }}
-      />
-
-      {/* SPRITE CAT */}
-      <motion.div
-        className="sprite-wrapper"
-        animate={{ x: catPos.x, y: catPos.y }}
-        transition={{ type: "spring", stiffness: 30 }}
-        style={{
-          transform: ball.x < catPos.x ? "scaleX(-1)" : "scaleX(1)"
-        }}
-      >
-        <div
-          className="sprite"
-          style={{
-            backgroundPosition: `-${(frame % 3) * 100}% -${Math.floor(frame / 3) * 100}%`
-          }}
+      {/* BALL (only if clicked) */}
+      {ball && (
+        <motion.div
+          className="ball"
+          animate={{ x: ball.x, y: ball.y }}
         />
-      </motion.div>
+      )}
+
+      {/* CUTE CAT PNG */}
+      <motion.img
+        src={cuteCat}
+        className="cute-cat"
+        animate={{ x: catPos.x, y: catPos.y }}
+        transition={{ type: "spring", stiffness: 40 }}
+        style={{
+          transform: ball && ball.x < catPos.x ? "scaleX(-1)" : "scaleX(1)"
+        }}
+      />
 
     </div>
   )
