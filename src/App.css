@@ -1,42 +1,83 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+body {
+  margin: 0;
+  font-family: "Times New Roman", Times, serif;
+  overflow: hidden;
+}
+
+.page {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background: linear-gradient(to bottom, #e6f2f7, white);
+  cursor: pointer;
+}
+
+/* HEADER */
+.top {
+  position: absolute;
+  top: 20px;
+  width: 100%;
   text-align: center;
+  z-index: 10;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.top h1 {
+  font-size: 60px;
+  margin: 0;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.top p {
+  font-size: 18px;
+  color: rgba(0, 0, 0, 0.6);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* ASTRONAUT BACKGROUND CATS */
+.bg-animal {
+  position: absolute;
+  width: 350px;
+  opacity: 0.12;
+  pointer-events: none;
 }
 
-.card {
-  padding: 2em;
+.bg-animal.left {
+  left: 0;
+  top: 100px;
 }
 
-.read-the-docs {
-  color: #888;
+.bg-animal.right {
+  right: 0;
+  top: 120px;
+}
+
+/* GLOWING BALL */
+.ball {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: white;
+  border-radius: 50%;
+  box-shadow:
+    0 0 8px white,
+    0 0 20px white,
+    0 0 40px rgba(255,255,255,0.8);
+  pointer-events: none;
+}
+
+/* SPRITE CAT */
+.sprite-cat {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  animation: run 1s steps(6) infinite;
+  pointer-events: none;
+}
+
+/* SPRITE ANIMATION (6 FRAMES, 200px EACH) */
+@keyframes run {
+  from { background-position: 0px; }
+  to { background-position: -1200px; }
 }
