@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import Lottie from "lottie-react"
 
 import catPookie from "./assets/catPookie.json"
@@ -9,25 +9,19 @@ import cuteCat from "./assets/cat-raisinghand.png"
 
 function App() {
 
-  const HEADER_HEIGHT = 180
-
-  // Ball position (null = not visible yet)
   const [ball, setBall] = useState(null)
+  const [catPos, setCatPos] = useState({ x: 50, y: 80 })
 
-  // Cat position
-  const [catPos, setCatPos] = useState({ x: 300, y: 120 })
-
-  // CLICK TO CREATE BALL
   const handleClick = (e) => {
-    if (e.clientY < HEADER_HEIGHT) {
-      setBall({
-        x: e.clientX,
-        y: e.clientY
-      })
-    }
+    const rect = e.currentTarget.getBoundingClientRect()
+
+    setBall({
+      x: e.clientX - rect.left - 5,
+      y: e.clientY - rect.top - 5
+    })
   }
 
-  // Cat smoothly follows ball
+  // Cat follows ball
   useEffect(() => {
     if (!ball) return
 
@@ -37,8 +31,8 @@ function App() {
         const dy = ball.y - prev.y
 
         return {
-          x: prev.x + dx * 0.025,
-          y: prev.y + dy * 0.025
+          x: prev.x + dx * 0.06,
+          y: prev.y + dy * 0.06
         }
       })
     }, 16)
@@ -46,10 +40,24 @@ function App() {
     return () => clearInterval(interval)
   }, [ball])
 
-  return (
-    <div className="page" onClick={handleClick}>
+  // Idle floating
+  useEffect(() => {
+    if (ball) return
 
-      {/* BACKGROUND ANIMALS */}
+    const float = setInterval(() => {
+      setCatPos({
+        x: 50,
+        y: 80 + Math.sin(Date.now() / 700) * 6
+      })
+    }, 16)
+
+    return () => clearInterval(float)
+  }, [ball])
+
+  return (
+    <div className="page">
+
+      {/* Background */}
       <motion.img
         src={bg1}
         className="bg-animal left"
@@ -64,7 +72,7 @@ function App() {
         transition={{ duration: 15, repeat: Infinity }}
       />
 
-      {/* HEADER */}
+      {/* Header */}
       <div className="top">
         <div className="logo-header">
           <Lottie
@@ -80,24 +88,31 @@ function App() {
         </p>
       </div>
 
-      {/* BALL (only if clicked) */}
-      {ball && (
-        <motion.div
-          className="ball"
-          animate={{ x: ball.x, y: ball.y }}
-        />
-      )}
+      {/* MITTEN PLAY ZONE */}
+      <div className="mitten-zone" onClick={handleClick}>
 
-      {/* CUTE CAT PNG */}
-      <motion.img
-        src={cuteCat}
-        className="cute-cat"
-        animate={{ x: catPos.x, y: catPos.y }}
-        transition={{ type: "spring", stiffness: 40 }}
-        style={{
-          transform: ball && ball.x < catPos.x ? "scaleX(-1)" : "scaleX(1)"
-        }}
-      />
+        <AnimatePresence>
+          {ball && (
+            <motion.div
+              className="ball"
+              initial={{ scale: 0 }}
+              animate={{ x: ball.x, y: ball.y, scale: 1 }}
+              transition={{ type: "spring", stiffness: 200 }}
+            />
+          )}
+        </AnimatePresence>
+
+        <motion.img
+          src={cuteCat}
+          className="cute-cat"
+          animate={{ x: catPos.x, y: catPos.y }}
+          transition={{ type: "spring", stiffness: 80 }}
+          style={{
+            transform: ball && ball.x < catPos.x ? "scaleX(-1)" : "scaleX(1)"
+          }}
+        />
+
+      </div>
 
     </div>
   )

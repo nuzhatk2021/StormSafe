@@ -1,83 +1,98 @@
-body {
+html, body, #root {
   margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
   font-family: "Times New Roman", Times, serif;
-  overflow: hidden;
+  background: radial-gradient(circle at 50% 30%, #1e293b, #0f172a);
+  color: white;
 }
 
 .page {
-  width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   position: relative;
-  background: linear-gradient(to bottom, #e6f2f7, white);
-  cursor: pointer;
+  overflow: hidden;
 }
 
-/* HEADER */
+/* Header */
 .top {
-  position: absolute;
-  top: 20px;
-  width: 100%;
   text-align: center;
-  z-index: 10;
+  padding-top: 1.5rem;
+  position: relative;
+  z-index: 5;
 }
 
 .top h1 {
-  font-size: 60px;
   margin: 0;
+  font-size: 3rem;
+  font-weight: 400;
 }
 
 .top p {
-  font-size: 18px;
-  color: rgba(0, 0, 0, 0.6);
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  color: #cbd5e1;
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* ASTRONAUT BACKGROUND CATS */
+.logo-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Background */
 .bg-animal {
   position: absolute;
-  width: 350px;
-  opacity: 0.12;
+  width: 600px;
+  opacity: 0.15;
   pointer-events: none;
+  z-index: 1;
 }
 
 .bg-animal.left {
-  left: 0;
-  top: 100px;
-}
-
-.bg-animal.right {
-  right: 0;
+  left: -100px;
   top: 120px;
 }
 
-/* GLOWING BALL */
+.bg-animal.right {
+  right: -100px;
+  top: 200px;
+}
+
+/* MITTEN ZONE */
+
+.mitten-zone {
+  position: fixed;
+  bottom: 90px;
+  right: 30px;
+  width: 180px;
+  height: 180px;
+  z-index: 20;
+  cursor: pointer;
+}
+
 .ball {
   position: absolute;
-  width: 14px;
-  height: 14px;
-  background: white;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
+  background: white;
   box-shadow:
-    0 0 8px white,
-    0 0 20px white,
-    0 0 40px rgba(255,255,255,0.8);
+    0 0 10px white,
+    0 0 25px rgba(255,255,255,0.5);
   pointer-events: none;
 }
 
-/* SPRITE CAT */
-.sprite-cat {
+.cute-cat {
   position: absolute;
-  width: 200px;
-  height: 200px;
-
-  background-repeat: no-repeat;
-  background-size: cover;
-
-  animation: run 1s steps(6) infinite;
+  width: 60px;
+  height: auto;
   pointer-events: none;
-}
-
-/* SPRITE ANIMATION (6 FRAMES, 200px EACH) */
-@keyframes run {
-  from { background-position: 0px; }
-  to { background-position: -1200px; }
+  transition: transform 0.2s ease;
 }
