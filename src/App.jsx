@@ -1,10 +1,13 @@
 import Lottie from "lottie-react"
+import { useNavigate } from "react-router-dom"
 import catPookie from "./assets/catPookie.json"
 import GalaxyBackground from "./galaxy/GalaxyBackground"
 import MiffyPlayZone from "./MiffyPlayZone"
 import "./App.css"
 
-function App() {
+function App({ user, onLogout }) {
+  const navigate = useNavigate()
+
   return (
     <div className="page">
 
@@ -49,7 +52,7 @@ function App() {
         </div>
 
         <div className="map-area">
-          <div className="marker red">❤️</div>
+          <div className="marker red">💔</div>
           <div className="marker yellow">⚡</div>
           <div className="marker orange">🤍</div>
           <div className="marker green">✔</div>
@@ -90,7 +93,6 @@ function App() {
             <p>See live rescue efforts directly on the map.</p>
           </div>
 
-          {/* 🐰 Miffy card placed as a grid item alongside the others */}
           <div className="info-card miffy-card">
             <h3>🐾 Miffy Play Zone</h3>
             <MiffyPlayZone />
@@ -102,8 +104,14 @@ function App() {
       <div className="bottom-nav">
         <div>💖 Donate</div>
         <div>📩 Contact</div>
-        <div>👤 Profile</div>
+        <div 
+          style={{ cursor: "pointer" }}
+          onClick={() => user ? onLogout() : navigate("/login")}
+        >
+          {user ? `🐾 Hi, ${user}` : "👤 Profile"}
+        </div>
       </div>
+
     </div>
   )
 }
